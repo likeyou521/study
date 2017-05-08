@@ -1,0 +1,36 @@
+init.php 初始化连接数据库
+
+<?php
+require_once dirname(__FILE__) . '/../../ActiveRecord.php';
+// initialize ActiveRecord
+// change the connection settings to whatever is appropriate for your mysql server 
+ActiveRecord\Config::initialize(function($cfg)
+{
+    $cfg->set_model_directory('.');
+    $cfg->set_connections(array('development' => 'mysql://root:root@127.0.0.1/test'));
+});
+
+1.如果直接 User 继承ActiveRecord\Model 的话  自动关联到 test数据库下的users
+	指定表用重写方法   下面这个方法就是数据表user
+	// explicit table name since our table is not "books"
+	static $table_name = 'user';
+
+	// explicit pk since our pk is not "id"
+	static $primary_key = 'uid';
+2.关联查询
+	a.一对一
+		针对外键来说  谁属于谁   谁有谁   
+		user表 article表 
+		article表外键uid属于user表 关联的话
+		article的Model层：    	
+			static $belongs_to = array(
+				array('user')
+			);
+
+		user表有个article的外键uid
+		user的Model层：
+			static $has_one = array(array('article'));
+
+	b.一对多
+		
+	c.多对多

@@ -1,0 +1,12 @@
+#提交文件到缓冲区
+git add *
+
+#提交的文件进行备注
+git commit -m  'first'
+
+#提交到master分支
+git push origin maaster
+
+
+#更新项目
+git pull

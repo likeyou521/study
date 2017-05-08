@@ -1,0 +1,56 @@
+Stubs （桩件）
+ 
+ 看不懂 
+ 例 9.6: 对方法的调用上桩，按照映射确定返回值 
+
+将对象替换为（可选地）返回配置好的返回值的测试替身的实践方法称为上桩(stubbing)。
+
+1.需要对其上桩的类 SomeClass.php
+/*
+*@brief 以下为SomeClassTest.php  要开始上桩了 
+*/
+1.为 SomeClass 类创建桩件
+	a. 标准的 $stub = $this->createMock(SomeClass::class)
+	b. 最佳实践 $stub = $this->getMockBuilder($originalClassName)
+                     ->disableOriginalConstructor()
+                     ->disableOriginalClone()
+                     ->disableArgumentCloning()
+                     ->disallowMockingUnknownTypes()
+                     ->getMock();
+2.配置桩件 
+	$stub->method('doSomething') * 如果原始类包含名为“method”的方法，就必须用 $stub->expects($this->any())->method('doSomething')->willReturn('foo');
+		 a. ->willReturn('foo');     //相当于->will($this->returnValue($value));  $stub->doSomething() 将返回 'foo'。
+
+		 b. ->will($this->returnArgument(0));  // $stub->doSomething('foo') 返回 'foo'
+
+		 c. ->will($this->returnSelf());  // $stub->doSomething() 返回 $stub
+
+		 d. ->will($this->returnCallback('md5'));   // $stub->doSomething($argument) 返回 md5($argument)  可以用 returnCallback() 来让上桩的方法返回回调函数或方法的结果
+
+		 e. ->will($this->onConsecutiveCalls(2, 3, 5, 7)); // $stub->doSomething() 每次返回值都不同 第一次调用 返回2 第二次调用 返回3 第三次调用 返回5
+		 
+		 f. ->will($this->throwException(new Exception));// $stub->doSomething() 抛出异常
+3.进行断言判断
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
