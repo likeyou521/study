@@ -38,6 +38,8 @@ ActiveRecord\Config::initialize(function($cfg)
 *@brief 裸奔sql语句
 **/
 	$users = User::find_by_sql('select * from `user` where uid in(1,2,3,4,5) order by uid desc');
+
+#已经定义了 关联article 模型
 	foreach($users as $user)
 	{
 		echo '序号：'.$user->uid.'  姓名：'.$user->name.' 文章内容：'.$user->article->comment.' <br />'; 
@@ -98,7 +100,7 @@ uid in(2,3,4)
 
 		user表有个article的外键uid
 		user的Model层：
-			static $has_one = array(array('article'));
+			static $has_one = array(array('article','foreign_key'=>'uid'));
 
 	b.一对多
 		
